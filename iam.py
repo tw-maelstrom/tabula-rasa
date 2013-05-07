@@ -1,17 +1,17 @@
 import boto
 
 exception_count = 0
-f = open('tabula-rasa.log', 'a')
+"""f = open('tabula-rasa.log', 'a')"""
 
 #handle exeptions
-def cleaning_exceptions(e):
+"""def cleaning_exceptions(e):
 	global exception_count
 	exception_count = exception_count + 1
 	f.write(str(exception_count))
 	f.write(" - IAM")
 	f.write("\n")
 	f.write(str(e))
-	f.write("\n")
+	f.write("\n")"""
 	
 
 #remove group policys from all groups
@@ -22,7 +22,7 @@ def rm_group_policies(iam, groups, users):
 			try:
 				iam.delete_group_policy(g['group_name'], p)
 			except Exception, e:
-				cleaning_exceptions(e);
+				print(e)
 				
 #remove users from all groups
 def rm_group_users(iam, groups, users):
@@ -32,7 +32,7 @@ def rm_group_users(iam, groups, users):
 			try:
 				iam.remove_user_from_group(g['group_name'], u['user_name'])
 			except Exception, e:
-				cleaning_exceptions(e);
+				print(e)
 
 #delete groups
 def rm_groups(iam, groups, users):
@@ -40,7 +40,7 @@ def rm_groups(iam, groups, users):
 		try:
 			iam.delete_group(g['group_name'])
 		except Exception, e:
-				cleaning_exceptions(e);
+				print(e)
 
 #remove user policies
 def rm_user_policies(iam, groups, users):
@@ -50,7 +50,7 @@ def rm_user_policies(iam, groups, users):
 			try:
 				iam.delete_user_policy(u['user_name'], p)
 			except Exception, e:
-				cleaning_exceptions(e);
+				print(e)
 
 #remove user login profile
 def rm_user_login_profile(iam, groups, users):
@@ -58,9 +58,8 @@ def rm_user_login_profile(iam, groups, users):
 		try:
 			iam.delete_login_profile(u['user_name'])
 		except Exception, e:
-			#print(e)
-			cleaning_exceptions(e);
-			
+			print(e)
+						
 #remove user keys
 def rm_user_keys(iam, groups, users):
 	for u in users.users:
@@ -69,7 +68,7 @@ def rm_user_keys(iam, groups, users):
 			try:
 				iam.delete_access_key(k['access_key_id'], user_name=u['user_name'])
 			except Exception, e:
-				cleaning_exceptions(e);
+				print(e)
   						
 #remove users
 def rm_user(iam, groups, users):
@@ -77,7 +76,7 @@ def rm_user(iam, groups, users):
 		try:
 			iam.delete_user(u['user_name'])
 		except Exception, e:
-  			cleaning_exceptions(e);
+  			print(e)
   					
 #main function called by main.py
 def iam_main(access_key, secret_key):
@@ -94,4 +93,4 @@ def iam_main(access_key, secret_key):
         rm_user_keys(iam, groups, users);
         rm_user(iam, groups, users);
         
-        f.close()
+      
