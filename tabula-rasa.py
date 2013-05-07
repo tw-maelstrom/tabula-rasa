@@ -12,6 +12,6 @@ for access_key, secret_key in account_keys:
 	iam_main(access_key, secret_key);
 	cfn_main(access_key, secret_key);
 	for region in regions:
-		print ("Starting EC2 for " + region)
+		print ("Starting EC2 purge for " + region)
 		ec2_main(region, access_key, secret_key);
-		print ("Finished EC2 for " + region)
+		print ("Finished EC2 purge for " + region)
